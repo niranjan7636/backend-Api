@@ -1,15 +1,23 @@
-const {server} = require("./index");
-const {connectDb} = require("./db/dbconncet");
-const port = process.env.PORT || 3000;
+require("dotenv").config();
+const express = require("express");
+const { router } = require("./routes/routers");
+const taskRouter = require("./routes/taskRoutes");
+const cors = require("cors")
 
+const cookieParser = require("cookie-parser");
+const { errorMiddleware } = require("./middlewares/error");
 
-connectDb();
+const server = express();
+server.use(cors({
+    origin : [process.env.FRONTEND_URL],
+    methods : ["GET","POST","PUT" , "DELETE"],
+    credentials : true,
+}))
+server.use(express.json());
+server.use(cookieParser());
 
+server.use("/api/v1/users" , router)
+server.use("/api/v1/task" , taskRouter)
+server.use(errorMiddleware)
 
-
-server.listen(port , ()=>{
-    
-    console.log(`Server is Working on port : ${process.env.PORT} In ${process.env.NODE_ENV}`)
-})
-
-
+module.exports = {server}
