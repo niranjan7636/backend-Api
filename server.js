@@ -9,14 +9,11 @@ const { errorMiddleware } = require("./middlewares/error");
 
 const server = express();
 server.use(cors({
-    origin : [process.env.FRONTEND_URL],
+    origin : process.env.FRONTEND_URL,
     methods : ["GET","POST","PUT" , "DELETE"],
-    credentials : true,
+    credentials  : true,
 }))
-server.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*"); 
-  next();
-});
+ 
 server.use(express.json());
 server.use(cookieParser());
 

@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { sendCookie } = require("../utils/features");
 const { errorHandler } = require("../middlewares/error");
 
-const register = async(req,res)=>{
+const register = async(req,res,next)=>{
 try {
   
   const {username , email , password} = req.body;
